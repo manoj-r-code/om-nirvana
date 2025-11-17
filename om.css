@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  font-family: "Georgia", serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* FULL-SCREEN EXPANDED TEXT */
+.bg-text {
+  position: absolute;
+  inset: 0;
+  color: rgba(255, 255, 255, 0.07);
+  font-size: 1.2rem;
+  line-height: 2rem;
+  white-space: pre-wrap;
+  padding: 40px;
+  user-select: none;
+  pointer-events: none;
+
+  /* Repeat text like wallpaper */
+  column-count: 3;
+  column-gap: 60px;
+
+  /* gentle movement */
+  animation: drift 40s linear infinite;
+}
+
+@keyframes drift {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+/* Center Floating ॐ & Ring */
+.container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: float 4s ease-in-out infinite;
+}
+
+.om {
+  font-size: 8rem;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  font-family: "Noto Sans Devanagari", sans-serif;
+  z-index: 20;
+  background: #000;
+}
+
+.ring {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: rotate 10s linear infinite, glow 3s ease-in-out infinite alternate;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+  z-index: 5;
+  background: #000;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); }
+  100% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.35); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
