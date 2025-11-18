@@ -1,4 +1,4 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -15,7 +15,6 @@ body {
   position: relative;
 }
 
-/* FULL-SCREEN EXPANDED TEXT */
 .bg-text {
   position: absolute;
   inset: 0;
@@ -27,11 +26,9 @@ body {
   user-select: none;
   pointer-events: none;
 
-  /* Repeat text like wallpaper */
   column-count: 3;
   column-gap: 60px;
 
-  /* gentle movement */
   animation: drift 40s linear infinite;
 }
 
@@ -40,7 +37,6 @@ body {
   100% { transform: translateY(-50%); }
 }
 
-/* Center Floating ॐ & Ring */
 .container {
   position: relative;
   z-index: 10;
@@ -85,4 +81,159 @@ body {
   0% { transform: translateY(0); }
   50% { transform: translateY(-15px); }
   100% { transform: translateY(0); }
+} */
+
+
+:root{
+  --scroll-duration: 36s; /* change this to speed up/slow down the scroll */
+  --bg-opacity: 0.07;
+}
+
+/* reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html,body{
+  height:100%;
+  background:#000;
+  font-family: "Georgia", serif;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  position:relative;
+}
+
+/* ---------- BACKGROUND SCROLL (two identical strips) ---------- */
+.bg-scroll{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  z-index:1;
+  display:block;
+}
+
+/* each strip fills the viewport height so two together are 200% height */
+.bg-strip{
+  width:100%;
+  color: rgba(255,255,255,var(--bg-opacity));
+  font-size:1.2rem;
+  line-height:2rem;
+  white-space:pre-wrap;
+  padding:40px;
+  user-select:none;
+  pointer-events:none;
+
+  /* make it look like wallpaper */
+  column-count:3;
+  column-gap:60px;
+}
+
+/* stack the two strips vertically inside bg-scroll by default flow */
+/* animate the whole parent by moving it up by 50% (height of one strip) */
+.bg-scroll{
+  animation: scrollUp var(--scroll-duration) linear infinite;
+}
+
+/* keyframes: move up by exactly 50% so the second strip replaces the first seamlessly */
+@keyframes scrollUp {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+/* ---------- CENTER CONTENT ---------- */
+.container{
+  position:relative;
+  z-index:10;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  pointer-events:none;
+  animation: float 4s ease-in-out infinite;
+}
+
+/* OM symbol - solid, non-transparent */
+.om{
+  font-size:8rem;
+  color:#fff;
+  font-family: "Noto Sans Devanagari", sans-serif;
+  text-shadow: 0 0 18px rgba(255,255,255,0.85);
+  background:#000;           /* blocks background behind OM */
+  padding:18px 30px;
+  border-radius:8px;
+  z-index:20;
+  line-height:1;
+}
+
+/* decorative ring */
+.ring{
+  position:absolute;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,0.28);
+  box-shadow:0 0 28px rgba(255,255,255,0.12);
+  z-index:5;
+  animation: rotate 12s linear infinite, glow 3.5s ease-in-out infinite alternate;
+  background:#000; /* ensure inner area is black so OM patch blends */
+}
+
+/* animations */
+@keyframes rotate{
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes glow{
+  0% { box-shadow:0 0 12px rgba(255,255,255,0.06); }
+  100% { box-shadow:0 0 40px rgba(255,255,255,0.22); }
+}
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+/* ---------- RESPONSIVE RULES ---------- */
+
+/* tablets & smaller */
+@media (max-width: 1024px){
+  .bg-strip{ font-size:1.05rem; line-height:1.9rem; column-gap:40px; padding:30px; }
+  .om{ font-size:6.8rem; padding:14px 26px; }
+  .ring{ width:220px; height:220px; }
+  :root{ --scroll-duration: 34s; } /* slightly faster feel on smaller devices */
+}
+
+/* phones */
+@media (max-width: 600px){
+  .bg-strip{
+    font-size:0.98rem;
+    line-height:1.6rem;
+    padding:20px;
+    column-count:1;      /* single column on mobile */
+    column-gap:18px;
+  }
+
+  .om{
+    font-size:5.2rem;
+    padding:10px 18px;
+  }
+
+  .ring{ width:170px; height:170px; border-width:1.6px; }
+  :root{ --scroll-duration: 30s; } /* tune for mobile */
+}
+
+/* very small phones */
+@media (max-width: 360px){
+  .bg-strip{ font-size:0.92rem; line-height:1.5rem; padding:16px; }
+  .om{ font-size:4.4rem; padding:8px 14px; }
+  .ring{ width:150px; height:150px; }
+}
+
+/* accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .bg-scroll, .container, .ring { animation: none !important; }
 }
